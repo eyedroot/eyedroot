@@ -1,8 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\GgController;
 use Illuminate\Support\Facades\Route;
+use Spatie\ResponseCache\Middlewares\CacheResponse;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::prefix('gg')
+    ->controller(GgController::class)
+    ->middleware(CacheResponse::class)
+    ->group(function () {
+        Route::get('/version', 'getVersion');
+    });
